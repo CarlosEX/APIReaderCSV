@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using ApiCsvReaderRegex.Models;
@@ -15,8 +16,12 @@ namespace ApiCsvReaderRegex.Services {
         private static IList<IMovie> GetMovieFileReadAllLines() {
             
             try {
+
+                string pathCurrent = Directory.GetCurrentDirectory();
+                string fullPathFile = Path.Combine(pathCurrent,"Data/movies.csv");
                 
-                string[] lines = File.ReadAllLines(filePath);
+                string[] lines = File.ReadAllLines(fullPathFile);
+
                 IList<IMovie> listMovie = new List<IMovie>();
 
                 foreach (var line in lines) {
