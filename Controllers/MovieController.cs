@@ -16,7 +16,7 @@ namespace ApiCsvReaderRegex.Controllers
             if(!IsTakeValidate(take))
                 return BadRequest();
             
-            var movies = MovieServiceCSV.GetMovies()
+            var movies = MovieServiceCSV.GetMovieFileOpenReadStreamReader()
                         .Skip(skip)
                         .Take(take);
 
@@ -39,7 +39,7 @@ namespace ApiCsvReaderRegex.Controllers
             if(!IsTakeValidate(take))
                 return BadRequest();
             
-            var movies = MovieServiceCSV.GetMovies()
+            var movies = MovieServiceCSV.GetMovieFileOpenReadStreamReader()
                         .Skip(skip)
                         .Take(take)
                         .Where(x => x.Title.Contains(text));
@@ -50,6 +50,19 @@ namespace ApiCsvReaderRegex.Controllers
                     IndiceSkip = skip,
                     ItensTake = take,
                     Movies = movies
+                }
+            );
+        }
+
+        [HttpGet("/genre/{genre}")]
+        public IActionResult GetCountGenre(string genre) {
+
+            int countGenre = MovieServiceCSV.GetMovieFileOpenReadStreamReader()
+                        .Where(x => x.Genres.Any(x => x.Name == genre)).Count();
+
+            return Ok(
+                new {
+                    Quantidade = countGenre
                 }
             );
         }
